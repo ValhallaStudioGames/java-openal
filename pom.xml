@@ -8,7 +8,7 @@
 	<version>2.0.0</version>
 
 	<name>JNA OpenAL Wrapper</name>
-	<description>A wrapper to access OpenAl in Java</description>
+	<description>A wrapper to access OpenAL in Java</description>
 	<url>https://github.com/ValhallaStudioGames/java-openal</url>
 
 	<developers>

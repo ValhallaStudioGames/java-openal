@@ -13,9 +13,9 @@ public class ALFactory {
 	public final ALExt alext;
 
 	public ALFactory() {
-		al = (AL) Native.loadLibrary(DEFAULT_DLL_NAME, AL.class);
-		alc = (ALC) Native.loadLibrary(DEFAULT_DLL_NAME, ALC.class);
-		alext = (ALExt) Native.loadLibrary(DEFAULT_DLL_NAME, ALExt.class);
+		al = Native.load(DEFAULT_DLL_NAME, AL.class);
+		alc = Native.load(DEFAULT_DLL_NAME, ALC.class);
+		alext = Native.load(DEFAULT_DLL_NAME, ALExt.class);
 	}
 
 	public ALFactory(File dllPath) throws FileNotFoundException {
@@ -28,8 +28,8 @@ public class ALFactory {
 			dllName = dllPath.getName();
 		}
 
-		al = (AL) Native.loadLibrary(dllName, AL.class);
-		alc = (ALC) Native.loadLibrary(dllName, ALC.class);
-		alext = (ALExt) Native.loadLibrary(dllName, ALExt.class);
+		al = Native.load(dllName, AL.class);
+		alc = Native.load(dllName, ALC.class);
+		alext = Native.load(dllName, ALExt.class);
 	}
 }

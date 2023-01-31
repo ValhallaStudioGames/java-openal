@@ -7,40 +7,51 @@ import org.valhalla.openal.jna.AL;
 import org.valhalla.openal.jna.ALFactory;
 import org.valhalla.openal.jna.Util;
 
+import java.util.Comparator;
+
 /**
- *
+ * A class representing an OpenAL buffer.<br>
+ * A Buffer is a piece of memory in which the next part(s) of an audio track are stored.
+ * An audio file will not be read entirely when creating a source, but will rather create buffers when needed.
  * @author Romain PETIT <u>tokazio@esyo.net</u>
  */
 public class Buffer {
 
     /**
-     *
+     * Link to the AL interface.<br>
+	 * The AL interface should be the interface on which the Buffer exists.
      */
     private final AL al;
 
     /**
-     *
+     * A unique number given by OpenAL to each buffer.<br>
+	 * In OpenAL buffers are addressed by id.
      */
     private final int bufferId;
 
     /**
-     *
+     * Has the buffer been closed?
+	 * A closed buffer can no longer be read from or written to, and will result in a {@link ALException}.
      */
     private boolean closed = false;
 
     /**
-     *
-     * @param factory
-     * @throws ALException
+     * Creates a new default buffer.<br>
+	 * <br>
+	 * The buffer will automatically get a buffer id assigned.
+     * @param factory the factory that provides an OpenAL context
+     * @throws ALException when there has been a problem creating a new buffer
      */
     public Buffer(ALFactory factory) throws ALException {
     	this(factory.al);
     }
 
     /**
-     *
-     * @param al
-     * @throws ALException
+     * Creates a new buffer.<br>
+	 * <br>
+	 * The buffer will automatically get a buffer id assigned.
+	 * @param al the OpenAL interface on which the buffer will be created
+	 * @throws ALException when there has been a problem creating a new buffer
      */
     public Buffer(AL al) throws ALException {
 		this.al = al;
@@ -50,27 +61,28 @@ public class Buffer {
 		Util.checkForALError(al);
 		bufferId = bufferIds[0];
 		
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-	        this.close();
-	    }));
+		Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**
-     *
-     * @param al
-     * @param bufferId
+     * Creates a new link to a buffer.<br>
+	 * <br>
+	 * This function can be used to construct a replica of a buffer object.
+	 * @param al the OpenAL interface on which the buffer will be created
+     * @param bufferId the buffer that will be replicated
      */
     Buffer(AL al, int bufferId) {
     	this.al = al;
     	this.bufferId = bufferId;
     	
-    	Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-	        this.close();
-	    }));
+    	Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**
-     *
+     * Closes and destroys the buffer.
+	 * Closing a buffer will result in the buffer getting deleted.
+	 * This will happen automatically when the class is no longer needed.
+	 * After a buffer has been deleted, using the buffer will throw an {@link ALException}.
      */
     public void close() {
 		if (!closed) {
@@ -81,23 +93,30 @@ public class Buffer {
     }
 
     /**
-     *
-     * @param format
-     * @param data
-     * @throws ALException
+     * Appends sound data to a buffer.<br>
+	 * <br>
+	 * The audio format is rather important.
+	 * Inputting the wrong format might not throw an error, but it will be audibly wrong.
+     * @param format format of the data
+     * @param data the sound data
+     * @throws ALException if there was an error adding data
      */
     public void addBufferData(AudioFormat format, byte[] data) throws ALException {
     	addBufferData(format, data, data.length);
     }
 
     /**
-     *
-     * @param format
-     * @param data
-     * @param size
-     * @throws ALException
+	 * Appends sound data to a buffer.<br>
+	 * <br>
+	 * The audio format is rather important.
+	 * Inputting the wrong format might not throw an error, but it will be audibly wrong.
+	 * @param format format of the data
+	 * @param data the sound data
+     * @param size the size of the data buffer
+	 * @throws ALException if there was an error adding data
+	 * @see #addBufferData(AudioFormat, byte[])
      */
-    public void addBufferData(AudioFormat format, byte[] data, int size) throws ALException {
+    private void addBufferData(AudioFormat format, byte[] data, int size) throws ALException {
 		int audioFormat = AL.AL_FALSE;
 		if (format.getSampleSizeInBits() == 8) {
 		    if (format.getChannels() == 1) {
@@ -115,36 +134,40 @@ public class Buffer {
 		if (audioFormat == AL.AL_FALSE) {
 		    throw new ALException("Unsuppported audio format: " + format);
 		}
-	
+
 		addBufferData(audioFormat, data, size, (int) format.getSampleRate());
     }
 
-    /**
-     *
-     * @param format
-     * @param data
-     * @param size
-     * @param sampleRate
-     * @throws ALException
+	/**
+	 * Appends sound data to a buffer.<br>
+	 * <br>
+	 * The audio format is rather important.
+	 * Inputting the wrong format might not throw an error, but it will be audibly wrong.
+	 * @param format format of the data
+	 * @param data the sound data
+	 * @param size the size of the data buffer
+     * @param sampleRate the sample rate of the buffer data
+	 * @throws ALException if there was an error adding data
+	 * @see #addBufferData(AudioFormat, byte[])
      */
-    public void addBufferData(int format, byte[] data, int size, int sampleRate) throws ALException {
+    private void addBufferData(int format, byte[] data, int size, int sampleRate) throws ALException {
     	Util.clearErrors(al);
     	al.alBufferData(bufferId, format, data, size, sampleRate);
     	Util.checkForALError(al);
     }
 
     /**
-     *
-     * @return
+     * Gets the unique buffer id of the buffer
+     * @return the unique buffer id
      */
     public int getBufferId() {
     	return bufferId;
     }
 
     /**
-     *
-     * @param other
-     * @return
+     * Check if 2 buffers point to the same OpenAL buffer
+     * @param other the other buffer
+     * @return if the 2 buffers contain the same OpenAL buffer
      */
     @Override
     public boolean equals(Object other) {
@@ -157,18 +180,20 @@ public class Buffer {
 		return ((Buffer) other).getBufferId() == getBufferId();
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
+	/**
+	 * Gets the hashcode for a buffer object
+	 * @return the hashcode for a buffer
+	 * @see Object#hashCode()
+	 */
+	@Override
     public int hashCode() {
     	return getBufferId() * 11;
     }
 
     /**
-     *
-     * @return
+     * Returns a String representation of the buffer
+     * @return a String with details about the buffer
+	 * @see Object#toString()
      */
     @Override
     public String toString() {
@@ -176,10 +201,11 @@ public class Buffer {
     }
 
     /**
-     *
-     * @param param
-     * @return
-     * @throws ALException
+     * Gets an internal integer property for a buffer
+     * @param param the requested integer parameter
+     * @return the value of the requested integer parameter
+     * @throws ALException if the parameter could not be found
+	 * @see AL#alGetBufferi(int, int, IntByReference) 
      */
     public int getIntParam(int param) throws ALException {
     	IntByReference result = new IntByReference(0);

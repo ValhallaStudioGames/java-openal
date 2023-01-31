@@ -3,6 +3,11 @@ package org.valhalla.openal.jna;
 import static org.valhalla.openal.jna.AL.AL_FALSE;
 import static org.valhalla.openal.jna.AL.AL_TRUE;
 
+/**
+ * interface that defines all the functions and variables present in "al/efx.h"<br>
+ * <br>
+ * jna will translate these functions into calls to the native OpenAL sound system.
+ */
 public interface EFX {
 	public static final String ALC_EXT_EFX_NAME = "ALC_EXT_EFX";
 

@@ -2,6 +2,11 @@ package org.valhalla.openal.jna;
 
 import com.sun.jna.Library;
 
+/**
+ * interface that defines all the functions and variables present in "al/alext.h"<br>
+ * <br>
+ * jna will translate these functions into calls to the native OpenAL sound system.
+ */
 public interface ALExt extends Library {
 	public static final int AL_FORMAT_IMA_ADPCM_MONO16_EXT = 0x10000;
 	public static final int AL_FORMAT_IMA_ADPCM_STEREO16_EXT = 0x10001;
