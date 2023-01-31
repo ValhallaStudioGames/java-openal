@@ -1,13 +1,14 @@
-package org.valhalla.openal;
+package org.valhalla.openal.intermediate;
 
 import java.util.List;
 
 import org.valhalla.openal.jna.ALC;
 import org.valhalla.openal.jna.ALCdevice;
-import org.valhalla.openal.jna.ALFactory;
-import org.valhalla.openal.jna.Util;
+import org.valhalla.openal.factory.ALFactory;
+import org.valhalla.openal.util.Util;
 
 import com.sun.jna.Pointer;
+import org.valhalla.openal.util.ALException;
 
 /**
  * A class representing an OpenAL device.<br>

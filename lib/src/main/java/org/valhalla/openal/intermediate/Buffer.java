@@ -1,13 +1,12 @@
-package org.valhalla.openal;
+package org.valhalla.openal.intermediate;
 
 import com.sun.jna.ptr.IntByReference;
 import javax.sound.sampled.AudioFormat;
 
 import org.valhalla.openal.jna.AL;
-import org.valhalla.openal.jna.ALFactory;
-import org.valhalla.openal.jna.Util;
-
-import java.util.Comparator;
+import org.valhalla.openal.factory.ALFactory;
+import org.valhalla.openal.util.Util;
+import org.valhalla.openal.util.ALException;
 
 /**
  * A class representing an OpenAL buffer.<br>

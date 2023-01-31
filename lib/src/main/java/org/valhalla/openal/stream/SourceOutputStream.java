@@ -1,11 +1,15 @@
-package org.valhalla.openal;
+package org.valhalla.openal.stream;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.sound.sampled.AudioFormat;
 
+import org.valhalla.openal.intermediate.Buffer;
+import org.valhalla.openal.intermediate.Source;
 import org.valhalla.openal.jna.AL;
+import org.valhalla.openal.util.ALException;
+import org.valhalla.openal.util.SourceState;
 
 /**
  * An output stream for easily streaming audio data to OpenAL source.

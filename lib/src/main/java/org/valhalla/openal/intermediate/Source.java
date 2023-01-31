@@ -1,16 +1,23 @@
-package org.valhalla.openal;
+package org.valhalla.openal.intermediate;
 
 import javax.sound.sampled.AudioFormat;
 
+import org.valhalla.openal.stream.SourceBufferedOutputStream;
+import org.valhalla.openal.stream.SourceOutputStream;
 import org.valhalla.openal.jna.AL;
-import org.valhalla.openal.jna.ALFactory;
-import org.valhalla.openal.jna.Util;
+import org.valhalla.openal.factory.ALFactory;
+import org.valhalla.openal.util.Util;
 
 import com.sun.jna.ptr.FloatByReference;
 import com.sun.jna.ptr.IntByReference;
+import org.valhalla.openal.util.ALException;
+import org.valhalla.openal.util.SourceState;
+import org.valhalla.openal.util.SourceType;
+import org.valhalla.openal.util.Tuple3F;
 
 /**
- *
+ * A class representing an OpenAL source.<br>
+ * A source is a collection of OpenAL buffers that will be played one after another until there are none left.
  * @author Romain PETIT <u>tokazio@esyo.net</u>
  */
 public class Source {

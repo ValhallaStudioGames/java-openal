@@ -1,7 +1,8 @@
-package org.valhalla.openal;
+package org.valhalla.openal.intermediate;
 
 import org.valhalla.openal.jna.ALC;
 import org.valhalla.openal.jna.ALCcontext;
+import org.valhalla.openal.util.ALException;
 
 /**
  * A class representing an OpenAL context.<br>

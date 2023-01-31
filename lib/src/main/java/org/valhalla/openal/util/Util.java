@@ -1,4 +1,4 @@
-package org.valhalla.openal.jna;
+package org.valhalla.openal.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.valhalla.openal.ALException;
+import org.valhalla.openal.jna.AL;
+import org.valhalla.openal.jna.ALC;
+import org.valhalla.openal.jna.ALCdevice;
+import org.valhalla.openal.util.ALException;
 
 import com.sun.jna.Pointer;
 

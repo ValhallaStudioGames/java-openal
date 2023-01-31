@@ -1,4 +1,4 @@
-package org.valhalla.openal;
+package org.valhalla.openal.util;
 
 /**
  * An enum class containing the OpenAL source states.<br>

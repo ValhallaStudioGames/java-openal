@@ -1,4 +1,4 @@
-package org.valhalla.openal;
+package org.valhalla.openal.util;
 
 /**
  * A tuple of 3 floats, used for specifying coordinates in the OpenAL System

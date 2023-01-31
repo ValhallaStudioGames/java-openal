@@ -9,9 +9,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.sun.jna.ptr.IntByReference;
+import org.valhalla.openal.intermediate.Buffer;
+import org.valhalla.openal.intermediate.Context;
+import org.valhalla.openal.intermediate.Device;
+import org.valhalla.openal.intermediate.Source;
 import org.valhalla.openal.jna.AL;
-import org.valhalla.openal.jna.ALFactory;
-import org.valhalla.openal.jna.Util;
+import org.valhalla.openal.factory.ALFactory;
+import org.valhalla.openal.util.Util;
+import org.valhalla.openal.util.ALException;
 
 /**
  * This class contains some boilerplate code for initializing/tearing down OpenAL,

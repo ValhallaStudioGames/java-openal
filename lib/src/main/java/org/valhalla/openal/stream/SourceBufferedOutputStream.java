@@ -1,4 +1,4 @@
-package org.valhalla.openal;
+package org.valhalla.openal.stream;
 
 import java.io.BufferedOutputStream;
 

@@ -1,4 +1,4 @@
-package org.valhalla.openal;
+package org.valhalla.openal.util;
 
 /**
  * Error class representing an OpenAL error.

@@ -1,9 +1,12 @@
-package org.valhalla.openal.jna;
+package org.valhalla.openal.factory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import com.sun.jna.Native;
+import org.valhalla.openal.jna.AL;
+import org.valhalla.openal.jna.ALC;
+import org.valhalla.openal.jna.ALExt;
 
 public class ALFactory {
 	private static final String DEFAULT_DLL_NAME = "openal";
