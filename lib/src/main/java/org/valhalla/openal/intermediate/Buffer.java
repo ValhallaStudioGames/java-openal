@@ -60,7 +60,7 @@ public class Buffer {
 		Util.checkForALError(al);
 		bufferId = bufferIds[0];
 		
-		Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+		System.out.println("buffer " + bufferId + " init");
     }
 
     /**

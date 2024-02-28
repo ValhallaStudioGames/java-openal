@@ -62,7 +62,7 @@ public class Source {
 		
 		sourceId = sourceIdHolder.getValue();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+        System.out.println("source " + sourceId + " init");
     }
 
     /**
@@ -142,9 +142,17 @@ public class Source {
     public void close() {
 	    if (!closed) {
 	        IntByReference sourceIdHolder = new IntByReference(sourceId);
+            IntByReference bufferId = new IntByReference();
+            al.alGetSourcei(sourceId, AL.AL_BUFFER, bufferId);
+
+            al.alSourcei(sourceId, AL.AL_BUFFER, 0);
 	        al.alDeleteSources(1, sourceIdHolder);
-	        closed = true;
-	    }
+            al.alDeleteBuffers(1, new int[] {bufferId.getValue()});
+
+
+			System.out.println("buffer " + bufferId.getValue() + " closed");
+            System.out.println("source " + sourceId + " closed");
+        }
     }
 
     /**

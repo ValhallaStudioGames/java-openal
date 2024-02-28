@@ -1,6 +1,15 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
+    id 'signing'
 }
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+sourceCompatibility = 17
 
 archivesBaseName = "${project.archives_base_name}"
 version = "${project.lib_version}"
@@ -9,6 +18,64 @@ repositories {
     mavenCentral()
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'java-openal'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'JNA OpenAL Wrapper'
+                description = 'A wrapper to access OpenAL in Java'
+                url = 'https://github.com/ValhallaStudioGames/java-openal'
+                licenses {
+                    license {
+                        name = 'GPLv2+CE'
+                        url = 'https://openjdk.org/legal/gplv2+ce.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'BauwenDR'
+                        name = 'Lead Programmer'
+                        email = 'RDnewuaB@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:ValhallaStudioGames/java-openal.git'
+                    developerConnection = 'scm:git:git@github.com:ValhallaStudioGames/java-openal.git'
+                    url = 'https://github.com/ValhallaStudioGames/java-openal/tree/master'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+            def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
 dependencies {
     api 'net.java.dev.jna:jna:5.12.1'
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
