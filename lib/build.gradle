@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'signing'
 }
 
 java {
@@ -16,6 +15,10 @@ version = "${project.lib_version}"
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    api 'net.java.dev.jna:jna:5.12.1'
 }
 
 publishing {
@@ -64,14 +67,6 @@ publishing {
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
         }
     }
-}
-
-dependencies {
-    api 'net.java.dev.jna:jna:5.12.1'
-}
-
-signing {
-    sign publishing.publications.mavenJava
 }
 
 javadoc {

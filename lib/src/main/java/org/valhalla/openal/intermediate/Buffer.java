@@ -59,8 +59,8 @@ public class Buffer {
 		al.alGenBuffers(1, bufferIds);
 		Util.checkForALError(al);
 		bufferId = bufferIds[0];
-		
-		System.out.println("buffer " + bufferId + " init");
+
+		Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**

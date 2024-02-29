@@ -62,7 +62,7 @@ public class Source {
 		
 		sourceId = sourceIdHolder.getValue();
 
-        System.out.println("source " + sourceId + " init");
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
     }
 
     /**
